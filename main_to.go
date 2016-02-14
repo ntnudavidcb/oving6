@@ -39,6 +39,7 @@ func listenUdp(port string, ipListChannel chan []string){
 	go timerout(timer)
 
 	for{
+
 		_, ipAddr, err := udpListen.ReadFromUDP(buffer[:])
 		if err != nil {log.Fatal(err)} 
 
@@ -70,7 +71,7 @@ func ipInList(ipAddr string, ipList []string) bool {
 }
 
 func timerout(timer chan bool){
-	time.Sleep(120*time.Second)
+	time.Sleep(1000*time.Second)
 	timer <- true
 }
 
