@@ -4,7 +4,6 @@ import(
 	"log"
 	"net"
 	"time"
-	"findIp"
 )
 
 func broadcastUdp(addr string){
@@ -71,7 +70,7 @@ func ipInList(ipAddr string, ipList []string) bool {
 }
 
 func timerout(timer chan bool){
-	time.Sleep(2*time.Second)
+	time.Sleep(120*time.Second)
 	timer <- true
 }
 
@@ -80,9 +79,9 @@ func main(){
 	ipListChannel := make(chan []string, 1)
 
 	port := ":20014"
-	broadcastAddr := "255.255.255.255:20014"
+	//broadcastAddr := "255.255.255.255:20014"
 
-	go broadcastUdp(broadcastAddr)
+	//go broadcastUdp(broadcastAddr)
 	go listenUdp(port, ipListChannel)
 
 	log.Println(<-ipListChannel)
