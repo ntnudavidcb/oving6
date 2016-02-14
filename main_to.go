@@ -4,6 +4,7 @@ import(
 	"log"
 	"net"
 	"time"
+	"findIp"
 )
 
 func broadcastUdp(addr string){
@@ -79,7 +80,7 @@ func main(){
 	ipListChannel := make(chan []string, 1)
 
 	port := ":20014"
-	broadcastAddr := "78.91.44.154:20014"
+	broadcastAddr := "255.255.255.255:20014"
 
 	go broadcastUdp(broadcastAddr)
 	go listenUdp(port, ipListChannel)
