@@ -21,7 +21,8 @@ func broadcastUdp(addr string) {
 
 	for {
 		udpBroadcast.Write([]byte("Not master"))
-		time.Sleep(100 * time.Second)
+		time.Sleep(1000 * time.Millisecond)
+		log.Println("Hei")
 	}
 }
 
@@ -69,7 +70,7 @@ func listenUdp(port string, ipListChannel chan []string) {
 			break
 		}
 
-		time.Sleep(1000 * time.Second)
+		time.Sleep(1000 * time.Millisecond)
 	}
 	ipListChannel <- ipList
 }
@@ -91,12 +92,12 @@ func timerout(timer chan bool) {
 func main() {
 	doneChannel := make(chan bool, 1)
 	ipListChannel := make(chan []string, 1)
+	doneChannel <- true
+	//port := ":20010"
+	broadcastAddr := "129.241.187.255:20060"
 
-	port := ":20010"
-	//broadcastAddr := "129.241.187.255:20010"
-
-	//go broadcastUdp(broadcastAddr)
-	go listenUdp(port, ipListChannel)
+	go broadcastUdp(broadcastAddr)
+	//go listenUdp(port, ipListChannel)
 
 	log.Println(<-ipListChannel)
 	<-doneChannel

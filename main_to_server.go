@@ -30,13 +30,11 @@ func listenUdp(port string, ipListChannel chan []string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("aslkdaslkd")
 	udpListen, err := net.ListenUDP("udp", udpAddr)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Println("aslkdaslkd")
 	defer udpListen.Close()
 
 	ipList := make([]string, 0)
@@ -68,9 +66,10 @@ func listenUdp(port string, ipListChannel chan []string) {
 		if timeout {
 			break
 		}
-
-		time.Sleep(1000 * time.Second)
+		log.Println("PC1")
+		time.Sleep(1000 * time.Millisecond)
 	}
+	log.Println("Server ended")
 	ipListChannel <- ipList
 }
 
@@ -84,7 +83,7 @@ func ipInList(ipAddr string, ipList []string) bool {
 }
 
 func timerout(timer chan bool) {
-	time.Sleep(1000 * time.Second)
+	time.Sleep(10 * time.Second)
 	timer <- true
 }
 
@@ -92,7 +91,7 @@ func main() {
 	doneChannel := make(chan bool, 1)
 	ipListChannel := make(chan []string, 1)
 
-	port := ":20010"
+	port := ":20060"
 	//broadcastAddr := "129.241.187.255:20010"
 
 	//go broadcastUdp(broadcastAddr)
