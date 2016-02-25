@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"strconv"
 	"time"
+	"strings"
 )
 
 func broadcastUdp(addr string, counter int) {
@@ -32,35 +33,38 @@ func listenUdp(port string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	udpListen, err := net.ListenUDP("udp", udpAddr)
-	udpListen.SetDeadline(time.Now().Add(2 * time.Second))
+	udpListen, err := net.ListenUDP("udp4", udpAddr)
+	udpListen.SetDeadline(time.Now().Add(3 * time.Second))
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	defer udpListen.Close()
-
-	var buffer []byte
+	buffer := make([]byte, 1024)
 	count := 0
 	for {
-		n, ipAddr, err := udpListen.ReadFromUDP(buffer)
+		log.Println("For udpListen")
+		_, _, err := udpListen.ReadFromUDP(buffer)
 		if err != nil {
 			//Kjør prosessen som en ny tråd
+			log.Println("Starting new process")
 			go theProcess(count)
 			return
 		}
-		count = strconv.Atoi(string(buffer[:n]))
+		//var i string = string(buffer[:n])
 
-		udpListen.SetDeadline(time.Now().Add(2 * time.Second))
+		readInt:=string(buffer)
+		count,_ = strconv.Atoi(strings.Split(readInt, "\x00")[0])
+		udpListen.SetDeadline(time.Now().Add(3 * time.Second))
 	}
 }
 
 func theProcess(count int) {
-	go broadcastUdp("129.241.187.255", count)
+	go broadcastUdp("192.168.56.255"+":30032", count)
 
 	log.Println("New process started")
 
-	cmd := exec.Command("go run phoenix_oving6.go", "5") //WTF IS THIS
+	cmd := exec.Command("gnome-terminal", "-x", "go", "run", "phoenix_oving6.go") //WTF IS THIS
 	err := cmd.Start()
 	if err != nil {
 		log.Fatal(err)
@@ -69,7 +73,7 @@ func theProcess(count int) {
 }
 
 func main() {
-	go listenUdp(":20010")
+	go listenUdp(":30032")
 	for {
 
 	}
