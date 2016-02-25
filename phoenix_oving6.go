@@ -64,7 +64,7 @@ func theProcess(count int) {
 
 	log.Println("New process started")
 
-	cmd := exec.Command("gnome-terminal", "-x", "go", "run", "phoenix_oving6.go") //WTF IS THIS
+	cmd := exec.Command("start", "Heiehi", "phoenix_oving6.go") //WTF IS THIS
 	err := cmd.Start()
 	if err != nil {
 		log.Fatal(err)
