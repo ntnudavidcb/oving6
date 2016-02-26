@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"net"
-	"os/exec"
+	//"os/exec"
 	"strconv"
 	"time"
 	"strings"
@@ -24,6 +24,7 @@ func broadcastUdp(addr string, counter int) {
 	for {
 		udpBroadcast.Write([]byte(strconv.Itoa(counter)))
 		counter = counter + 1
+		log.Println(counter)
 		time.Sleep(1 * time.Second)
 	}
 }
@@ -64,11 +65,11 @@ func theProcess(count int) {
 
 	log.Println("New process started")
 
-	cmd := exec.Command("start", "Heiehi", "phoenix_oving6.go") //WTF IS THIS
-	err := cmd.Start()
-	if err != nil {
-		log.Fatal(err)
-	}
+	//cmd := exec.Command("start", "Heiehi", "phoenix_oving6.go") //WTF IS THIS
+	//err := cmd.Start()
+	//if err != nil {
+//		log.Fatal(err)
+	//}
 
 }
 
