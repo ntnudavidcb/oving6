@@ -6,25 +6,6 @@ import (
 	"time"
 )
 
-func broadcastUdp(addr string) {
-	udpAddr, err := net.ResolveUDPAddr("udp", addr)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	udpBroadcast, err := net.DialUDP("udp", nil, udpAddr)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer udpBroadcast.Close()
-
-	for {
-		udpBroadcast.Write([]byte("Not master"))
-		time.Sleep(100 * time.Second)
-	}
-}
-
 func listenUdp(port string, ipListChannel chan []string) {
 	udpAddr, err := net.ResolveUDPAddr("udp", port)
 	if err != nil {
@@ -46,7 +27,7 @@ func listenUdp(port string, ipListChannel chan []string) {
 	go timerout(timer)
 
 	for {
-
+		
 		_, ipAddr, err := udpListen.ReadFromUDP(buffer[:])
 		if err != nil {
 			log.Fatal(err)
